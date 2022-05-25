@@ -10,7 +10,7 @@ def md(*args, **kwargs):
 
 
 async def get_post(post_id: int):
-    """Получаем данные с какой-то новости еа сайте olympiada.ru"""
+    """Получаем данные с какой-то новости еа сайте olimpiada.ru"""
 
     # проверяем на наличие в базе данных
     try:
@@ -20,7 +20,7 @@ async def get_post(post_id: int):
     except Exception as error:
         logging.exception(error)
 
-    page = requests.get(f"https://olympiada.ru/news/{post_id}/")
+    page = requests.get(f"https://olimpiada.ru/news/{post_id}/")
 
     # проверяем, что такая страница есть
     if not page.ok:
@@ -83,15 +83,15 @@ async def get_post(post_id: int):
     # пытаемся добыть олимпиаду, которая связанна с постом
     if right_part is not None:
         try:
-            for olymp_for_news in right_part.find_all("div", class_="olymp_for_news"):
-                href = olymp_for_news.find("a")["href"]
+            for olimp_for_news in right_part.find_all("div", class_="olimp_for_news"):
+                href = olimp_for_news.find("a")["href"]
                 activity_id = int(href[len("/activity/"):])
-                res.olymp.append(activity_id)
+                res.olimp.append(activity_id)
         except Exception as error:
             logging.exception(error)
 
     # проверяем что олимпиада перечневая
-    for activity_id in res.olymp:
+    for activity_id in res.olimp:
         if await users.tables.fetchrow("level_activity", activity_id=activity_id) is not None:
             res.head = "⭐️" + res.head
             break

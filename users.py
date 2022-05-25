@@ -12,20 +12,20 @@ class Post:
 
     head: str - заголовок поста
     text: str - основной текст новости
-    olymp: list of int - список id прикреплённых записей
+    olimp: list of int - список id прикреплённых записей
     tags: list of str - предметы этой новости
     """
 
     none_head = "Нет заголовка"
     none_text = "Нет текста"
 
-    def __init__(self, head="Нет заголовка", text="Нет заголовка", olymp=None, tags=None):
+    def __init__(self, head="Нет заголовка", text="Нет заголовка", olimp=None, tags=None):
         self.head = head
         self.text = text
-        if olymp is None:
-            self.olymp = []
+        if olimp is None:
+            self.olimp = []
         else:
-            self.olymp = olymp
+            self.olimp = olimp
 
         if tags is None:
             self.tags = []
@@ -134,10 +134,10 @@ async def find_post(post_id: int):
 
             head = res["head"]
             text = res["text"]
-            olymp = res["olymp"]
+            olimp = res["olimp"]
             tags = res["tags"]
 
-            return Post(head, text, olymp, tags)
+            return Post(head, text, olimp, tags)
 
     except Exception as error:
         logging.exception(error)
@@ -149,10 +149,10 @@ async def insert_post(post_id: int, post: Post):
 
             head = post.head
             text = post.text
-            olymp = '{' + ', '.join(str(elem) for elem in post.olymp) + '}'
+            olimp = '{' + ', '.join(str(elem) for elem in post.olimp) + '}'
             tags = '{' + ', '.join(str(elem) for elem in post.tags) + '}'
             time = int(datetime.datetime.utcnow().timestamp())
 
-            await tables.insert("posts", post_id=post_id, head=head, text=text, olymp=olymp, tags=tags, time=time)
+            await tables.insert("posts", post_id=post_id, head=head, text=text, olimp=olimp, tags=tags, time=time)
         except Exception as error:
             logging.exception(error)
