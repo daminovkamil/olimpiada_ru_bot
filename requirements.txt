@@ -3,3 +3,4 @@ aiogram
 markdownify
 requests
 beautifulsoup4
+lxml

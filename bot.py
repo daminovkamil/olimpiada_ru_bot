@@ -9,6 +9,8 @@ import logging
 import users
 import asyncio
 
+logging.basicConfig(filename="exceptions.log", filemode="a")
+
 bot = Bot(token=bot_token)
 dp = Dispatcher(bot)
 parse_mode = ParseMode.MARKDOWN
@@ -153,8 +155,12 @@ async def manage_tags(msg: types.Message):
 async def calling(call: types.CallbackQuery):
     user_id = call.from_user.id
 
+    downloading_keyboard = types.InlineKeyboardMarkup()
+    downloading_keyboard.add(types.InlineKeyboardButton(text="Загрузка...", callback_data="None"))
+
     if call.data[:len("full_text:")] == "full_text:":
         post_id = int(call.data[len("full_text:"):])
+        await call.message.edit_reply_markup(downloading_keyboard)
         post = await olimpiada.get_post(post_id)
         text = await post.full_text(f"https://olimpiada.ru/news/{post_id}")
         link_keyboard = types.InlineKeyboardMarkup()
@@ -166,6 +172,7 @@ async def calling(call: types.CallbackQuery):
 
     if call.data[:len("short_text:")] == "short_text:":
         post_id = int(call.data[len("short_text:"):])
+        await call.message.edit_reply_markup(downloading_keyboard)
         post = await olimpiada.get_post(post_id)
         text = await post.short_text(f"https://olimpiada.ru/news/{post_id}")
         link_keyboard = types.InlineKeyboardMarkup()

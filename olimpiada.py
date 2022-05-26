@@ -26,7 +26,7 @@ async def get_post(post_id: int):
     if not page.ok:
         return None
 
-    soup = BeautifulSoup(page.text, "html.parser")
+    soup = BeautifulSoup(page.text, "lxml")
 
     res = users.Post()
 
