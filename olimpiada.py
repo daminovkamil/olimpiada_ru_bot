@@ -10,7 +10,7 @@ def md(*args, **kwargs):
 
 
 async def get_post(post_id: int):
-    """Получаем данные с какой-то новости еа сайте olimpiada.ru"""
+    """Получаем данные с какой-то новости на сайте olimpiada.ru"""
 
     # проверяем на наличие в базе данных
     try:
