@@ -223,7 +223,9 @@ async def news():
             await bot.send_message(admin_id, text_for_admin)
             return
 
-        post: users.Post = await olimpiada.get_post(post_id + 1)
+        post_id += 1
+
+        post: users.Post = await olimpiada.get_post(post_id)
         if post is None:
             await asyncio.sleep(3600)
             continue
@@ -236,7 +238,7 @@ async def news():
         else:
             text = await post.short_text(f"https://olimpiada.ru/news/{post_id}")
             link_keyboard.add(
-                types.InlineKeyboardButton(text="⇩Полный текст", callback_data=f"full_text:{post_id + 1}")
+                types.InlineKeyboardButton(text="⇩Полный текст", callback_data=f"full_text:{post_id}")
             )
 
         tags = 0
